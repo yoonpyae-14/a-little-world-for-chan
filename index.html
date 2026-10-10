@@ -1,0 +1,835 @@
+ 
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#dcefe3">
+
+<title>A Little World for Chan ♡</title>
+
+<style>
+
+:root {
+
+  --mint: #dcefe3;
+
+  --sage: #8eae98;
+
+  --deep: #456b56;
+
+  --cream: #fffaf0;
+
+  --ink: #405548;
+
+  --pink: #f4d9d8;
+
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+
+  margin: 0;
+
+  min-height: 100vh;
+
+  color: var(--ink);
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  background:
+
+    radial-gradient(ellipse at top left, #f8eee5 0%, transparent 45%),
+
+    linear-gradient(145deg, #e7f3e9, #f9f3e8 55%, #e4efe4);
+
+  overflow-x: hidden;
+
+}
+
+body::before {
+
+  content: "✿   ·   ✧   ·   ❀   ·   ✧   ·   ✿";
+
+  display: block;
+
+  text-align: center;
+
+  padding: 18px 8px 0;
+
+  color: #87a98f;
+
+  letter-spacing: 7px;
+
+  font-size: 15px;
+
+}
+
+main {
+
+  width: min(100% - 28px, 680px);
+
+  margin: 0 auto;
+
+  padding: 16px 0 50px;
+
+}
+
+.panel {
+
+  background: rgba(255, 250, 240, .88);
+
+  border: 1px solid rgba(112, 151, 120, .3);
+
+  border-radius: 25px;
+
+  padding: 27px 21px;
+
+  margin: 18px 0;
+
+  box-shadow: 0 12px 35px rgba(75, 111, 83, .09);
+
+  text-align: center;
+
+}
+
+.eyebrow {
+
+  text-transform: uppercase;
+
+  letter-spacing: 3px;
+
+  font: 11px Arial, sans-serif;
+
+  color: #77977e;
+
+}
+
+h1 {
+
+  font-size: clamp(32px, 8vw, 51px);
+
+  line-height: 1.13;
+
+  color: var(--deep);
+
+  margin: 18px 0;
+
+  font-weight: normal;
+
+}
+
+h2 {
+
+  color: var(--deep);
+
+  font-size: clamp(25px, 6vw, 34px);
+
+  font-weight: normal;
+
+  line-height: 1.25;
+
+}
+
+p {
+
+  font-size: 16px;
+
+  line-height: 1.85;
+
+}
+
+.subtitle {
+
+  font-style: italic;
+
+  line-height: 1.9;
+
+  max-width: 440px;
+
+  margin: 0 auto 22px;
+
+}
+
+button, .song-link {
+
+  border: 0;
+
+  border-radius: 30px;
+
+  padding: 13px 21px;
+
+  margin: 7px 3px;
+
+  background: var(--deep);
+
+  color: white;
+
+  font-size: 14px;
+
+  font-family: Arial, sans-serif;
+
+  cursor: pointer;
+
+  text-decoration: none;
+
+  display: inline-block;
+
+  transition: transform .2s, background .2s;
+
+}
+
+button:hover, .song-link:hover {
+
+  transform: translateY(-2px);
+
+  background: #5e8269;
+
+}
+
+button:focus-visible, a:focus-visible {
+
+  outline: 3px solid #b3cbb6;
+
+  outline-offset: 3px;
+
+}
+
+.secondary {
+
+  background: #e7efe5;
+
+  color: var(--deep);
+
+}
+
+.hidden { display: none !important; }
+
+.big-flower {
+
+  font-size: 52px;
+
+  margin: 8px 0;
+
+}
+
+.stars {
+
+  display: grid;
+
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+
+  gap: 7px;
+
+  margin: 23px 0;
+
+}
+
+.star {
+
+  min-width: 0;
+
+  aspect-ratio: 1;
+
+  padding: 4px;
+
+  border-radius: 17px;
+
+  font-size: clamp(25px, 7vw, 38px);
+
+  background: #e8f0e5;
+
+  color: #90a991;
+
+  border: 1px solid #d5e4d5;
+
+}
+
+.star.collected {
+
+  color: #d8a94d;
+
+  background: #fff1c8;
+
+}
+
+#starMessage {
+
+  min-height: 65px;
+
+  font-style: italic;
+
+  padding: 8px 3px;
+
+}
+
+.progress {
+
+  height: 7px;
+
+  background: #e4e8dc;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  margin: 14px 0;
+
+}
+
+#progressBar {
+
+  width: 0;
+
+  height: 100%;
+
+  background: #8eae98;
+
+  transition: width .3s;
+
+}
+
+.envelope-wrap {
+
+  margin: 28px auto 18px;
+
+  max-width: 330px;
+
+}
+
+.envelope {
+
+  position: relative;
+
+  height: 175px;
+
+  background: #b8d5bd;
+
+  border-radius: 8px;
+
+  overflow: hidden;
+
+  border: 1px solid #9fbea6;
+
+  box-shadow: 0 10px 25px #6f95751c;
+
+}
+
+.envelope::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: #a9cbb1;
+
+  clip-path: polygon(0 0, 50% 60%, 100% 0);
+
+  z-index: 2;
+
+  transition: transform .7s;
+
+  transform-origin: top;
+
+}
+
+.envelope::after {
+
+  content: "♡";
+
+  position: absolute;
+
+  z-index: 3;
+
+  left: 50%;
+
+  top: 45%;
+
+  transform: translate(-50%, -50%);
+
+  color: white;
+
+  font-size: 37px;
+
+}
+
+.envelope.open::before {
+
+  transform: rotateX(180deg);
+
+}
+
+.paper {
+
+  background: #fffdf5;
+
+  border-radius: 12px;
+
+  padding: 22px 17px;
+
+  margin: -7px 8px 0;
+
+  position: relative;
+
+  z-index: 1;
+
+  opacity: 0;
+
+  transform: translateY(-20px);
+
+  transition: opacity .7s, transform .7s;
+
+  line-height: 1.8;
+
+  font-style: italic;
+
+}
+
+.paper.show {
+
+  opacity: 1;
+
+  transform: translateY(0);
+
+}
+
+.letter {
+
+  text-align: left;
+
+  white-space: normal;
+
+}
+
+.letter p { margin: 0 0 16px; }
+
+.letter .sign {
+
+  text-align: right;
+
+  color: var(--deep);
+
+  font-style: italic;
+
+}
+
+.gift {
+
+  font-size: 92px;
+
+  line-height: 1.4;
+
+  cursor: pointer;
+
+  display: inline-block;
+
+  animation: float 2.5s ease-in-out infinite;
+
+}
+
+@keyframes float {
+
+  0%,100% { transform: translateY(0) rotate(-2deg); }
+
+  50% { transform: translateY(-7px) rotate(2deg); }
+
+}
+
+.final-note {
+
+  background: #e8f1e5;
+
+  border-radius: 18px;
+
+  padding: 20px 15px;
+
+  margin: 15px 0;
+
+  font-style: italic;
+
+  line-height: 1.9;
+
+}
+
+footer {
+
+  text-align: center;
+
+  color: #7d9982;
+
+  font-size: 12px;
+
+  line-height: 2;
+
+  padding: 20px 5px;
+
+}
+
+@media (max-width: 380px) {
+
+  .panel { padding: 23px 14px; }
+
+  p { font-size: 15px; }
+
+  .star { border-radius: 12px; }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *, *::before, *::after {
+
+    animation-duration: .01ms !important;
+
+    transition-duration: .01ms !important;
+
+    scroll-behavior: auto !important;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<main>
+
+<section class="panel" id="welcome">
+
+  <div class="big-flower">🌿</div>
+
+  <div class="eyebrow">a little birthday surprise</div>
+
+  <h1>A Little World<br>for Chan ♡</h1>
+
+  <p class="subtitle">
+
+    To someone who makes my ordinary days feel a little less ordinary. 🌿
+
+  </p>
+
+  <p>There are a few little wishes waiting for you here.</p>
+
+  <button id="startButton">Let's begin ♡</button>
+
+  <p class="eyebrow">made with warmth, just for you</p>
+
+</section>
+
+<section class="panel hidden" id="starsSection">
+
+  <div class="eyebrow">little wishes, just for you</div>
+
+  <h2>Collect Five Little Stars ✨</h2>
+
+  <p>Tap each star to discover a small wish for you.</p>
+
+  <div class="progress"><div id="progressBar"></div></div>
+
+  <p id="count">0 of 5 stars collected</p>
+
+  <div class="stars">
+
+    <button class="star" data-index="0" aria-label="Collect star 1">☆</button>
+
+    <button class="star" data-index="1" aria-label="Collect star 2">☆</button>
+
+    <button class="star" data-index="2" aria-label="Collect star 3">☆</button>
+
+    <button class="star" data-index="3" aria-label="Collect star 4">☆</button>
+
+    <button class="star" data-index="4" aria-label="Collect star 5">☆</button>
+
+  </div>
+
+  <p id="starMessage" aria-live="polite">Your little wishes are waiting. ♡</p>
+
+  <button id="toLetter" class="hidden">A letter is waiting for you ♡</button>
+
+</section>
+
+<section class="panel hidden" id="envelopeSection">
+
+  <div class="eyebrow">something from the heart</div>
+
+  <h2>A Little Letter for You</h2>
+
+  <p>Some words are better written down, so I made this little letter for you.</p>
+
+  <div class="envelope-wrap">
+
+    <div class="envelope" id="envelope"></div>
+
+    <div class="paper" id="paper">
+
+      You may be just one person in this world, but you make this little part of my world feel brighter.
+
+      <p>♡</p>
+
+    </div>
+
+  </div>
+
+  <button id="openLetter">Open your letter ♡</button>
+
+  <button id="toBirthday" class="hidden">Read your birthday wishes →</button>
+
+</section>
+
+<section class="panel hidden" id="birthdaySection">
+
+  <div class="big-flower">🌷</div>
+
+  <div class="eyebrow">october 14, 2007</div>
+
+  <h1>Happy 19th<br>Birthday, Chan! ♡</h1>
+
+  <div class="letter">
+
+    <p>First of all, happy birthday to you, Chan. 🤍</p>
+
+    <p>I hope today brings you so much happiness, beautiful memories, and all the little things that make your heart smile. You deserve a day that feels as special as you are, and I hope this new chapter of your life will be filled with nothing but beautiful things.</p>
+
+    <p>Before anything else, I just want to say thank you. Thank you for always being there for me, for listening to me, and for giving me strength whenever I needed it. You might not even realize it, but sometimes your words, your presence, and the way you care can make someone's day so much better. And for me, that someone is me. I'm genuinely grateful that I got to know you and have you in my life.</p>
+
+    <p>I hope life will always be kind to you. I hope you meet more beautiful people, experience more wonderful moments, and find happiness in places you never expected. I hope the people around you are people who truly love you, care about you, appreciate you, and make you feel that you are enough. People who choose you, stay with you, and never make you question your worth. And if I can be one of those people for you, even in my own little way, I would be happy.</p>
+
+    <p>I hope you get to do all the things you've been dreaming of. I hope you have the courage to chase what you want, the strength to get through difficult days, and the patience to keep going when things don't work out the way you planned. May you find more reasons to smile than reasons to cry, and may your heart always have a place where it can rest peacefully.</p>
+
+    <p>And Chan, please remember that you don't always have to be strong. It's okay to feel tired. It's okay to have bad days. It's okay when things don't go as planned. You don't have to figure everything out at once. Whatever life brings you, I hope you never forget how precious you are and how much good you deserve.</p>
+
+    <p>I can't promise that I will always have the perfect words to say, or that I will know how to make every difficult day better. But whenever you need someone to listen, someone to cheer you on, or simply someone to sit beside you when the world feels a little too heavy, I hope you know that you can always count on me. I'll be here, rooting for you, celebrating your little victories, and wishing the best for you, even on the days when you don't feel your best.</p>
+
+    <p>You know, some people come into our lives and make ordinary days feel a little brighter without even trying. They become a small but meaningful part of our everyday happiness. And sometimes, we don't tell them enough how much their presence means to us. So today, I just want you to know that I'm really glad you're here, and I'm really glad that our paths crossed.</p>
+
+    <p>As you grow older, I hope you never lose the little things that make you you. I hope you keep smiling that smile, keep chasing your dreams, and keep finding beautiful reasons to love the life you're living. And whenever you look back on this birthday, I hope you remember that someone was genuinely wishing for your happiness, your peace, and your beautiful future.</p>
+
+    <p>Happy birthday once again, Chan. 🎂</p>
+
+    <p>May this year be gentle with your heart, generous with its blessings, and full of moments that remind you how beautiful life can be. I hope the future brings you closer to everything you've been wishing for.</p>
+
+    <p>And no matter how much life changes, I hope there will always be people beside you who make you feel loved, understood, and safe to be yourself.</p>
+
+    <p>Please keep being you, Chan. The world is a little brighter with you in it.</p>
+
+    <p class="sign">With lots of warmth and the sincerest wishes for your happiness,<br>Someone who's always rooting for you. ♡</p>
+
+  </div>
+
+  <button id="toGift">One last little surprise 🎁</button>
+
+</section>
+
+<section class="panel hidden" id="giftSection">
+
+  <div class="eyebrow">just one more thing</div>
+
+  <h2>A Little Gift for You</h2>
+
+  <p>Tap the gift when you're ready. ♡</p>
+
+  <button id="giftButton" class="secondary" aria-label="Open birthday gift">
+
+    <span class="gift">🎁</span><br>Open your gift
+
+  </button>
+
+  <div id="giftReveal" class="hidden">
+
+    <div class="big-flower">🌼</div>
+
+    <div class="final-note">
+
+      I hope this year gives you as much happiness as you quietly bring to the people around you.
+
+    </div>
+
+    <p>And if you ever forget how special you are, I hope this little letter reminds you.</p>
+
+    <p>May your 19th year be full of gentle days, kind people, and beautiful surprises. ♡</p>
+
+    <h2>Keep shining, Chan. 🌿</h2>
+
+    <p>If you want a little music, you can play your song below.</p>
+
+    <a class="song-link"
+
+       href="https://www.youtube.com/results?search_query=Why+Don%27t+You+Stay+Jeff+Satur"
+
+       target="_blank" rel="noopener noreferrer">
+
+       ♫ Find “Why Don't You Stay” — Jeff Satur
+
+    </a>
+
+  </div>
+
+</section>
+
+<footer>
+
+  made with care, just for you ♡<br>
+
+  a little world in mint green 🌿
+
+</footer>
+
+</main>
+
+<script>
+
+(function () {
+
+  "use strict";
+
+  var messages = [
+
+    "I hope you always find little reasons to smile.",
+
+    "I hope your heart always finds a place to rest.",
+
+    "May the things you dream of slowly become real.",
+
+    "Even on hard days, I hope you remember how precious you are.",
+
+    "I'm really glad that our paths crossed, Chan."
+
+  ];
+
+  var collected = [false, false, false, false, false];
+
+  function showSection(id) {
+
+    var sections = [
+
+      "welcome",
+
+      "starsSection",
+
+      "envelopeSection",
+
+      "birthdaySection",
+
+      "giftSection"
+
+    ];
+
+    sections.forEach(function (sectionId) {
+
+      document.getElementById(sectionId).classList.add("hidden");
+
+    });
+
+    document.getElementById(id).classList.remove("hidden");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+  }
+
+  document.getElementById("startButton").addEventListener("click", function () {
+
+    showSection("starsSection");
+
+  });
+
+  document.querySelectorAll(".star").forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+      var index = Number(button.getAttribute("data-index"));
+
+      if (collected[index]) return;
+
+      collected[index] = true;
+
+      button.classList.add("collected");
+
+      button.textContent = "★";
+
+      button.setAttribute("aria-pressed", "true");
+
+      document.getElementById("starMessage").textContent = messages[index];
+
+      var total = collected.filter(Boolean).length;
+
+      document.getElementById("count").textContent =
+
+        total + " of 5 stars collected";
+
+      document.getElementById("progressBar").style.width =
+
+        (total * 20) + "%";
+
+      if (total === 5) {
+
+        document.getElementById("starMessage").textContent =
+
+          "You found all five little wishes. I hope they stay with you. ♡";
+
+        document.getElementById("toLetter").classList.remove("hidden");
+
+      }
+
+    });
+
+  });
+
+  document.getElementById("toLetter").addEventListener("click", function () {
+
+    showSection("envelopeSection");
+
+  });
+
+  document.getElementById("openLetter").addEventListener("click", function () {
+
+    document.getElementById("envelope").classList.add("open");
+
+    document.getElementById("paper").classList.add("show");
+
+    document.getElementById("openLetter").classList.add("hidden");
+
+    document.getElementById("toBirthday").classList.remove("hidden");
+
+  });
+
+  document.getElementById("toBirthday").addEventListener("click", function () {
+
+    showSection("birthdaySection");
+
+  });
+
+  document.getElementById("toGift").addEventListener("click", function () {
+
+    showSection("giftSection");
+
+  });
+
+  document.getElementById("giftButton").addEventListener("click", function () {
+
+    document.getElementById("giftReveal").classList.remove("hidden");
+
+    document.getElementById("giftButton").classList.add("hidden");
+
+  });
+
+})();
+
+</script>
+
+</body>
+
+</html>
